@@ -1,15 +1,20 @@
 import { useAuth } from "@/features/auth/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TypographyH12, TypographyH16 } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export const UserAvatar = () => {
+  const router = useRouter();
   const { user, loading } = useAuth();
 
   if (loading) {
     return "Loading...";
   }
 
-  if (!user) return null;
+  if (!user) {
+    return <Button onClick={() => router.push("/auth/login")}>Sign in</Button>;
+  }
 
   const full_name = user.first_name + " " + user.last_name;
   const role = user.role;
