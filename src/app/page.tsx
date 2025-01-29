@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <Container>
-        <TypographyH72>Diploma</TypographyH72>
+        <TypographyH72 className="mb-8">Diploma</TypographyH72>
         <UserAvatar />
       </Container>
     </div>

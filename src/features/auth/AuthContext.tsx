@@ -9,6 +9,8 @@ import AuthService from "./AuthService";
 import { TUser } from "@/features/user/user.types";
 import UserService from "@/features/user/UserService";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { ApiError } from "@/lib/api.types";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -27,6 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<TUser | null>(null);
   const router = useRouter();
+  const { toast } = useToast();
 
   const fetchUser = async () => {
     try {
@@ -36,6 +39,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.log("Failed to fetch user:", error);
       logout(); // Logout if fetching user fails (e.g., invalid token)
+      const { status, message } = error as ApiError;
+      toast({
+        variant: "destructive",
+        title: status.toString(),
+        description: message,
+      });
     } finally {
       setLoading(false);
     }

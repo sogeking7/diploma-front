@@ -61,10 +61,15 @@ class AuthService {
    */
   private static handleApiError(error: unknown): never {
     if (isAxiosError(error)) {
-      const axiosError = error as AxiosError<{ detail?: string }>;
+      const axiosError = error as AxiosError<{
+        detail?: string;
+        message?: string;
+      }>;
       const status = axiosError.response?.status || 500;
       const message =
-        axiosError.response?.data?.detail || "An unexpected error occurred.";
+        axiosError.response?.data?.detail ||
+        axiosError.response?.data?.message ||
+        "An unexpected error occurred.";
       throw { status, message } as ApiError;
     }
     throw { status: 500, message: "An unknown error occurred." } as ApiError;
