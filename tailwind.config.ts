@@ -65,7 +65,7 @@ export default {
           "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
           accent: "hsl(var(--sidebar-accent))",
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
+          border: "#2729371F",
           ring: "hsl(var(--sidebar-ring))",
         },
       },

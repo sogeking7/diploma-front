@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { TypographyH16, TypographyH32 } from "@/components/ui/typography";
+import { TypographyH16, TypographyH24 } from "@/components/ui/typography";
 import { useAuth } from "@/features/auth/AuthContext";
 import { ApiError } from "@/lib/api.types";
 
@@ -61,10 +61,10 @@ export default function LoginForm() {
     <Card>
       <CardHeader>
         <CardTitle>
-          <TypographyH32>Login</TypographyH32>
+          <TypographyH24>Login</TypographyH24>
         </CardTitle>
         <CardDescription>
-          <TypographyH16>
+          <TypographyH16 className={"text-[#272937BF]"}>
             Enter your credentials to access your account
           </TypographyH16>
         </CardDescription>

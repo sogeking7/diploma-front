@@ -31,9 +31,9 @@ export default function RootLayout({
         <Providers>
           <SidebarProvider>
             <AppSidebar />
-            <main className="w-full py-2">
+            <main className="w-full py-2 bg-[#FAFAFA]">
               {isNotLoginPage && (
-                <div className={"px-4 sm:px-6 lg:px-8 py-2"}>
+                <div className={"px-4 pb-2"}>
                   <SidebarTrigger />
                 </div>
               )}

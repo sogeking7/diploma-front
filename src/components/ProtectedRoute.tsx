@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import Spinner from "./custom/Spinner"; // Import the Spinner component
@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!loading && !isAuthenticated) {
       if (pathname !== "/auth/login") router.replace("/auth/login");
     }
@@ -25,6 +25,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
       </div>
     );
   }
+
+  if (!isAuthenticated) return null;
 
   return <>{children}</>;
 };
