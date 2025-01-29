@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,19 +21,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { TypographyH16, TypographyH32 } from "@/components/ui/typography";
-// Define the form schema with Zod
+import { useAuth } from "@/features/auth/AuthContext";
+import { ApiError } from "@/lib/api.types";
+
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
+  password: z.string(),
+  // .min(8, { message: "Password must be at least 8 characters long" }),
 });
 
 export default function LoginForm() {
-  const [serverError, setServerError] = useState<string | null>(null);
+  const { login } = useAuth();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -46,24 +45,20 @@ export default function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    setServerError(null);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Form submitted:", values);
-      // Here you would typically make an API call to authenticate the user
+      await login(values.email, values.password);
+    } catch (error) {
+      const { status, message } = error as ApiError;
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "An error occurred while logging in. Please try again.",
+        title: status.toString(),
+        description: message,
       });
-    } catch (error) {
-      setServerError("An error occurred while logging in. Please try again.");
     }
   }
 
   return (
-    <Card className="">
+    <Card>
       <CardHeader>
         <CardTitle>
           <TypographyH32>Login</TypographyH32>
@@ -120,11 +115,6 @@ export default function LoginForm() {
           </CardFooter>
         </form>
       </Form>
-      {serverError && (
-        <Alert variant="destructive" className="mt-4">
-          <AlertDescription>{serverError}</AlertDescription>
-        </Alert>
-      )}
     </Card>
   );
 }
