@@ -107,7 +107,6 @@ export default function LoginForm() {
             <Button
               type="submit"
               className="w-full"
-              size={"lg"}
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? "Logging in..." : "Log in"}
